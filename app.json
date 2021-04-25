@@ -3,6 +3,7 @@
     "name": "memo_app",
     "slug": "memo_app",
     "version": "1.0.0",
+    "privacy": "unlisted",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
