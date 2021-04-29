@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
 });
 
 export default function Button(props) {
-  const { label } = props;
+  const { label, onPress } = props;
   return (
-    <View style={styles.buttonContainer}>
+    <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
       <Text style={styles.buttonLabel}>{ label }</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
