@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
   circleButton: {
@@ -26,10 +27,10 @@ const styles = StyleSheet.create({
 });
 
 export default function circleButton(props) {
-  const { children, style } = props;
+  const { name, style } = props;
   return (
     <View style={[styles.circleButton, style]}>
-      <Text style={styles.circleButtonLabel}>{children}</Text>
+      <Feather name={name} size={24} color="white" />
     </View>
   );
 }
