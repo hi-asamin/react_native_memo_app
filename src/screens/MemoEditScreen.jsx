@@ -3,7 +3,6 @@ import {
   View, StyleSheet, TextInput, Alert,
 } from 'react-native';
 
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButtom';
 import KeyboardSafeView from '../components/KeyboardSafeView';
 
@@ -24,14 +23,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MemoEditScreen() {
+export default function MemoEditScreen(props) {
+  // eslint-disable-next-line react/prop-types
+  const { navigation } = props;
   return (
     <KeyboardSafeView style={styles.container}>
-      <AppBar />
       <View style={styles.inputContainer}>
         <TextInput value="買い物リスト" multiline style={styles.input} />
       </View>
-      <CircleButton name="check" onPress={() => { Alert.alert('Pressed!'); }} />
+      <CircleButton
+        name="check"
+        // eslint-disable-next-line react/prop-types
+        onPress={() => { navigation.goBack(); }}
+      />
     </KeyboardSafeView>
   );
 }
