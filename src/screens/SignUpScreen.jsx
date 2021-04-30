@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, StyleSheet, TouchableOpacity,
+  Alert, View, Text, TextInput, StyleSheet, TouchableOpacity,
 } from 'react-native';
+import firebase from 'firebase';
 
 import Button from '../components/Button';
 
@@ -49,6 +50,23 @@ export default function SignUpScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handlePress = () => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+        console.log(user.uid);
+      })
+      .catch((error) => {
+        Alert.alert(error.code);
+        console.log(error.code, error.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
@@ -73,12 +91,7 @@ export default function SignUpScreen(props) {
         />
         <Button
           label="Submit"
-          onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'MemoList' }],
-            });
-          }}
+          onPress={handlePress}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already registered?</Text>
