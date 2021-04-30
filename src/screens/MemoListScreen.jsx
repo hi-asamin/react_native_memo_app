@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import MemoList from '../components/MemoList';
 import CircleButton from '../components/CircleButtom';
+import LogOutButton from '../components/LogOutButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,6 +14,11 @@ const styles = StyleSheet.create({
 });
 export default function MemoListScreen(props) {
   const { navigation } = props;
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <LogOutButton />,
+    });
+  }, []);
   return (
     <View style={styles.container}>
       <MemoList />
