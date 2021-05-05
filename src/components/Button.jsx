@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
 });
 
 export default function Button(props) {
-  const { label, onPress } = props;
+  // eslint-disable-next-line react/prop-types
+  const { label, onPress, style } = props;
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+    <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPress}>
       <Text style={styles.buttonLabel}>{ label }</Text>
     </TouchableOpacity>
   );
