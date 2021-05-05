@@ -6,6 +6,7 @@ import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButtom';
 import KeyboardSafeView from '../components/KeyboardSafeView';
+import { translateErrorMessages } from '../utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +45,8 @@ export default function MemoEditScreen(props) {
           navigation.goBack();
         })
         .catch((error) => {
-          Alert.alert(error.code);
+          const errorMessage = translateErrorMessages(error.code);
+          Alert.alert(errorMessage.title, errorMessage.description);
         });
     }
   };

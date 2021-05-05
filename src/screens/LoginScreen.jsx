@@ -7,6 +7,7 @@ import firebase from 'firebase';
 
 import Button from '../components/Button';
 import Loading from '../components/Loading';
+import { translateErrorMessages } from '../utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -72,15 +73,15 @@ export default function LoginScreen(props) {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const { user } = userCredential;
+        console.log(user.uid);
         navigation.reset({
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
-        console.log(user.uid);
       })
       .catch((error) => {
-        Alert.alert(error.code);
-        console.log(error.code, error.message);
+        const errorMessage = translateErrorMessages(error.code);
+        Alert.alert(errorMessage.title, errorMessage.description);
       })
       .then(() => {
         setLoading(false);
