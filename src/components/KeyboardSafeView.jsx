@@ -9,6 +9,17 @@ export default function KeyboardSafeView({ children, style }) {
   const animatedViewHeight = useRef(null);
   const [viewHeight, setViewHeight] = useState(null);
 
+  const handleShow = ({ endCoordinates }) => {
+    if (endCoordinates.height && initialViewHeight.current) {
+      const keyboardHeight = Dimensions.get('window').height - endCoordinates.screenY;
+      setViewHeight(initialViewHeight.current - keyboardHeight);
+    }
+  };
+
+  const handleHide = () => {
+    setViewHeight(initialViewHeight.current);
+  };
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', handleShow);
     Keyboard.addListener('keyboardDidHide', handleHide);
@@ -30,17 +41,6 @@ export default function KeyboardSafeView({ children, style }) {
         { toValue: viewHeight, duration: 300, useNativeDriver: false }).start();
     }
   }, [viewHeight]);
-
-  const handleShow = ({ endCoordinates }) => {
-    if (endCoordinates.height && initialViewHeight.current) {
-      const keyboardHeight = Dimensions.get('window').height - endCoordinates.screenY;
-      setViewHeight(initialViewHeight.current - keyboardHeight);
-    }
-  };
-
-  const handleHide = () => {
-    setViewHeight(initialViewHeight.current);
-  };
 
   const handleLayout = ({ nativeEvent }) => {
     if (!initialViewHeight.current) {

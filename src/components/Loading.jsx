@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     marginBottom: 80,
-  }
+  },
 });
 
 export default function Loading(props) {

@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import {
-  View, StyleSheet, TextInput,
+  View, StyleSheet, TextInput, Alert,
 } from 'react-native';
 import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButtom';
 import KeyboardSafeView from '../components/KeyboardSafeView';
+import { translateErrorMessages } from '../utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,11 +36,11 @@ export default function MemoCreateScreen(props) {
     ref.add({
       bodyText,
       updatedAt: new Date(),
-    }).then((docRef) => {
-      console.log('created', docRef.id);
+    }).then(() => {
       navigation.goBack();
     }).catch((error) => {
-      console.error('error', error);
+      const errorMessage = translateErrorMessages(error.code);
+      Alert.alert(errorMessage.title, errorMessage.description);
     });
   };
 
