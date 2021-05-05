@@ -81,7 +81,7 @@ export default function MemoDetailScreen(props) {
         style={{ top: 60, bottom: 'auto' }}
         name="edit-2"
         // eslint-disable-next-line react/prop-types
-        onPress={() => { navigation.navigate('MemoEdit'); }}
+        onPress={() => { navigation.navigate('MemoEdit', { id: memo.id, bodyText: memo.bodyText }); }}
       />
     </View>
   );

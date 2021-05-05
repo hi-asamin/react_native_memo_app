@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  View, StyleSheet, TextInput,
+  View, StyleSheet, TextInput, Alert,
 } from 'react-native';
+import firebase from 'firebase';
 
 import CircleButton from '../components/CircleButtom';
 import KeyboardSafeView from '../components/KeyboardSafeView';
@@ -25,16 +26,41 @@ const styles = StyleSheet.create({
 
 export default function MemoEditScreen(props) {
   // eslint-disable-next-line react/prop-types
-  const { navigation } = props;
+  const { navigation, route } = props;
+  // eslint-disable-next-line react/prop-types
+  const { id, bodyText } = route.params;
+  const [body, setBody] = useState(bodyText);
+  const handlePress = () => {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      ref.set({
+        bodyText: body,
+        updatedAt: new Date(),
+      }, { merge: true }) // 編集しないkeyは元々の値で更新してくれるオプション
+        .then(() => {
+          // eslint-disable-next-line react/prop-types
+          navigation.goBack();
+        })
+        .catch((error) => {
+          Alert.alert(error.code);
+        });
+    }
+  };
   return (
     <KeyboardSafeView style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput value="買い物リスト" multiline style={styles.input} />
+        <TextInput
+          value={body}
+          multiline
+          style={styles.input}
+          onChangeText={(text) => { setBody(text); }}
+        />
       </View>
       <CircleButton
         name="check"
-        // eslint-disable-next-line react/prop-types
-        onPress={() => { navigation.goBack(); }}
+        onPress={handlePress}
       />
     </KeyboardSafeView>
   );
